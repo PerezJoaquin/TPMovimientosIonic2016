@@ -63,6 +63,9 @@ angular.module('starter.controllers', ['ngCordova'])
   $scope.y;
   $scope.z;
   $scope.timestamp;
+
+  var oldState = "acostado";
+
   var options = { frequency: 1 };
   document.addEventListener("deviceready", function () {
     var watch = $cordovaDeviceMotion.watchAcceleration(options);
@@ -82,31 +85,41 @@ angular.module('starter.controllers', ['ngCordova'])
 
             if(result.x > 0 && result.x < 1 && result.y > 0 && result.y < 1 && result.z > 0){
               $scope.estado = "acostado";
+              document.getElementById("imagen").src = "img/acostado.png";
             }else if(result.x > 5){
               $scope.estado = "izquierda";
+              document.getElementById("imagen").src = "img/izquierda.png";
             }else if(result.x < -5){
               $scope.estado = "derecha";
+              document.getElementById("imagen").src = "img/derecha.png";
             }else if(result.y > 8){
               $scope.estado = "parado";
+              document.getElementById("imagen").src = "img/parado.png";
             }else if(result.z < -9){
-              $scope.estado = "boca abajo";
+              $scope.estado = "boca_abajo";
+              document.getElementById("imagen").src = "img/boca_abajo.png";
+            }
+
+            if($scope.estado != oldState){
+              //SONIDO Y VIBRACION
+              try{
+                window.plugins.NativeAudio.play($scope.estado);
+              }catch(e){
+                console.log("Error Sonido " + $scope.estado);
+              }
+              try{
+                $cordovaVibration.vibrate(100);
+              } catch(e){
+                console.log("Error vibrar");
+              }
+              oldState = $scope.estado
             }
           })
         });
       });
   });
-    /*
-    //SONIDO Y VIBRACION
-    try{
-      window.plugins.NativeAudio.play(sonido);
-    }catch(e){
-      console.log("Error Sonido " + sonido);
-    }
-    try{
-      $cordovaVibration.vibrate(100);
-    } catch(e){
-      console.log("Error vibrar");
-    }*/
+    
+    
     //GUARDAR ARCHIVO
 
 })

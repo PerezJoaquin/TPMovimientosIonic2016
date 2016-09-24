@@ -29,23 +29,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
     //CARGAR AUDIOS
     if( window.plugins && window.plugins.NativeAudio ) {
-      window.plugins.NativeAudio.preloadSimple( 'genji', 'audio/genji.mp3', function(msg){
+      window.plugins.NativeAudio.preloadSimple( 'acostado', 'audio/acostado.mp3', function(msg){
       }, function(msg){
           console.log( 'succes error: ' + msg );
       });
-      window.plugins.NativeAudio.preloadSimple( 'phara', 'audio/phara.mp3', function(msg){
+      window.plugins.NativeAudio.preloadSimple( 'parado', 'audio/parado.mp3', function(msg){
       }, function(msg){
           console.log( 'fail error: ' + msg );
       });
-      window.plugins.NativeAudio.preloadSimple( '76', 'audio/76.mp3', function(msg){
+      window.plugins.NativeAudio.preloadSimple( 'izquierda', 'audio/izquierda.mp3', function(msg){
       }, function(msg){
           console.log( 'fail error: ' + msg );
       });
-      window.plugins.NativeAudio.preloadSimple( 'hanzo', 'audio/hanzo.mp3', function(msg){
+      window.plugins.NativeAudio.preloadSimple( 'derecha', 'audio/derecha.mp3', function(msg){
       }, function(msg){
           console.log( 'fail error: ' + msg );
       });
-      window.plugins.NativeAudio.preloadSimple( 'widow', 'audio/widow.mp3', function(msg){
+      window.plugins.NativeAudio.preloadSimple( 'boca_abajo', 'audio/boca_abajo.mp3', function(msg){
       }, function(msg){
           console.log( 'fail error: ' + msg );
       });

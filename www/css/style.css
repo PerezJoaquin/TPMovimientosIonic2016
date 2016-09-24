@@ -60,10 +60,8 @@ ion-content{
   outline-color: rgba(255,0,0,0);*/
 }
 
-.botones{
-  height: 30%; 
-  width: 30%; 
-  border-radius: 25px;
+.botones{ 
+  width: 90%; 
   /*border: 2px solid #e60000;*/
 }
 
