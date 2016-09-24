@@ -52,9 +52,58 @@ angular.module('starter.controllers', ['ngCordova'])
 })
 
 
-.controller('MovCtrl', function($scope, $cordovaFile, $cordovaDeviceMotion, $timeout) {
+.controller('MovCtrl', function($scope, $rootScope, $cordovaFile, $cordovaDeviceMotion, $timeout) {
   //CARGAR AUDIOS DE USUARIO SI EXISTEN
+  $rootScope.paradoFlag = "";
+  $rootScope.abajoFlag = "";
+  $rootScope.izqFlag = "";
+  $rootScope.derFlag = "";
+  $rootScope.acostadoFlag = "";
 
+  $scope.user = function(){
+    if($rootScope.paradoFlag == 1){
+      alert("Sonido usuario");
+      window.plugins.NativeAudio.preloadSimple( 'parado1', "userAudio/" + $rootScope.paradoPath, function(msg){
+      }, function(msg){
+          alert( 'fail sound preload error: ' + msg );
+      });
+    }
+    if($rootScope.abajoFlag == 1){
+      alert("Sonido usuario");
+      window.plugins.NativeAudio.preloadSimple( 'boca_abajo1', $rootScope.abajoPath, function(msg){
+      }, function(msg){
+          alert( 'fail sound preload error: ' + msg );
+      });
+    }
+    if($rootScope.izqFlag == 1){
+      alert("Sonido usuario");
+      window.plugins.NativeAudio.preloadSimple( 'izquierda1', $rootScope.izqPath, function(msg){
+      }, function(msg){
+          alert( 'fail sound preload error: ' + msg );
+      });
+    }
+    if($rootScope.derFlag == 1){
+      alert("Sonido usuario");
+      window.plugins.NativeAudio.preloadSimple( 'derecha1', $rootScope.derPath, function(msg){
+      }, function(msg){
+          alert( 'fail sound preload error: ' + msg );
+      });
+    }
+    if($rootScope.acostadoFlag == 1){
+      alert("Sonido usuario");
+      window.plugins.NativeAudio.preloadSimple( 'acostado1', $rootScope.acostadoPath, function(msg){
+      }, function(msg){
+          alert( 'fail sound preload error: ' + msg );
+      });
+    }
+  }
+  $scope.default = function(){
+    $rootScope.paradoFlag = "";
+    $rootScope.abajoFlag = "";
+    $rootScope.izqFlag = "";
+    $rootScope.derFlag = "";
+    $rootScope.acostadoFlag = "";
+  }
 
   //MOVIMIENTO
   $scope.estado = "acostado";
@@ -103,6 +152,23 @@ angular.module('starter.controllers', ['ngCordova'])
             if($scope.estado != oldState){
               //SONIDO Y VIBRACION
               try{
+                switch($scope.estado){
+                  case "acostado":
+                    $scope.estado += $rootScope.acostadoFlag;
+                    break;
+                  case "parado":
+                    $scope.estado += $rootScope.paradoFlag;
+                    break;
+                  case "izquierda":
+                    $scope.estado += $rootScope.izqFlag;
+                    break;
+                  case "derecha":
+                    $scope.estado += $rootScope.derFlag;
+                    break;
+                  case "boca_abajo":
+                    $scope.estado += $rootScope.abajoFlag;
+                    break;
+                }
                 window.plugins.NativeAudio.play($scope.estado);
               }catch(e){
                 console.log("Error Sonido " + $scope.estado);
@@ -118,11 +184,68 @@ angular.module('starter.controllers', ['ngCordova'])
         });
       });
   });
-    
-    
-    //GUARDAR ARCHIVO
-
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('PlaylistsCtrl', function($scope, $rootScope, $cordovaCapture) {
+  $scope.parado = function() {
+    var options = { limit: 1, duration: 5 };
+
+    $cordovaCapture.captureAudio(options).then(function(audioData) {
+      // Success! Audio data is here
+      $rootScope.paradoFlag = 1;
+      $rootScope.paradoPath = audioData.fullPath;
+      alert(JSON.stringify(audioData));
+    }, function(err) {
+      // An error occurred. Show a message to the user
+    });
+  }
+  $scope.acostado = function() {
+    var options = { limit: 1, duration: 5 };
+    $cordovaCapture.captureAudio(options).then(function(audioData) {
+      // Success! Audio data is here
+      $rootScope.acostadoFlag = 1;
+      $rootScope.acostadoPath = audioData.fullPath;
+      alert(JSON.stringify(audioData));
+    }, function(err) {
+      // An error occurred. Show a message to the user
+    });
+  }
+  $scope.izquierda = function() {
+    var options = { limit: 1, duration: 5 };
+    $cordovaCapture.captureAudio(options).then(function(audioData) {
+      // Success! Audio data is here
+      $rootScope.izqFlag = 1;
+      $rootScope.izqPath = audioData.fullPath;
+      alert(JSON.stringify(audioData));
+    }, function(err) {
+      // An error occurred. Show a message to the user
+    });
+  }
+  $scope.derecha = function() {
+    var options = { limit: 1, duration: 5 };
+
+    $cordovaCapture.captureAudio(options).then(function(audioData) {
+      // Success! Audio data is here
+      $rootScope.derFlag = 1;
+      $rootScope.derPath = audioData.fullPath;
+      //audioData.Move("userAudio/");
+      //audioData.MoveFile(audioData.fullPath, /*"userAudio/" + audioData.name*/ "file:/storage/emulated/0/PSP/" + audioData.name);
+
+      alert(JSON.stringify(audioData));
+    }, function(err) {
+      // An error occurred. Show a message to the user
+    });
+  }
+  $scope.abajo = function() {
+    var options = { limit: 1, duration: 5 };
+
+    $cordovaCapture.captureAudio(options).then(function(audioData) {
+      // Success! Audio data is here
+      $rootScope.abajoFlag = 1;
+      $rootScope.abajoPath = audioData.fullPath;
+      alert(JSON.stringify(audioData));
+    }, function(err) {
+      // An error occurred. Show a message to the user
+    });
+  }
 });
